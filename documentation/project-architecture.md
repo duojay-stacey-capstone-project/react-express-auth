@@ -1,39 +1,32 @@
 # Project Architecture: 
 
-Provide an overview of how the different components of your project will interact and work together. This includes database design, APIs, and front-end components.
-
-## Example: 
-This is the project architecture for a simple todo app. The app will have a front-end implemented using React, a back-end using Node.js with Express, and a database using PostgreSQL. Here’s how the components will interact and work together:
+This is the project architecture for lanaguge learning app. The app will have a front-end implemented using React and Typescript, a back-end using Node.js with Express, and a database using PostgreSQL. Here’s how the components will interact and work together:
 
 ### Front-End Components (React):
 * **User Interface (UI)**: The front-end will consist of the following components:
-   *  A task list
-   *  An input form for adding tasks
-   *  Each task will display the task title and description and have buttons for completing or deleting tasks
+   *  A quiz
+   *  A user would be able to selected the choices to stregth their knowledge 
+   *  At the end of the quiz the user will be able to see their progress
+   *  If the user have acheieve a score 85% or higher they will be able to go to the second lesson
 * **State Management**:
-   * The task list component will manage the state of the list of tasks. Each task will be an object with the tasks id, title, description, and completion status
-   * The input form will manage the user input
-* **Communication with Back-End**: The front-end will make API calls to the back-end to retrieve tasks, add new tasks, mark tasks as completed, or delete tasks.
+   * The question list component will manage and list out each question for the user depending the lanaguge the user selected and each question will have the quiz question id, answer, three other choices and the quiz id
+* **Communication with Back-End**: The front-end will make API calls to the back-end to retrieve quiz_questions, and record the user attempst in the quiz attempts.
 
 ### Back-End Components (Node.js with Express):
-* **API Endpoints**: The back-end will expose several API endpoints to handle different actions such as fetching all tasks, adding a new task, updating a task’s status, and deleting a task. These include:
-    * `GET /tasks`
-    * `POST /tasks`
-    * `PATCH /tasks/:taskID`
-    * `DELETE /tasks/:taskID`
-* Task Controller: A `taskControllers` module will process incoming API requests, interact with the database, and send appropriate responses back to the front-end.
-* Task Model: A `Task` model will define the structure of a `task` and the methods to interact with the PostgreSQL database.
+* **API Endpoints**: The back-end will expose several API endpoints to handle different actions such as fetching all quiz question, quiz topic, and quiz lesson updating a task’s status, and deleting a task. These include:
+    * `GET /quiz/:id`
+    * `GET /quiz_topic/:id`
+    * `GET /lesson-quiz/:id`
+    * `GET /quiz-question/:id`
+* Quiz Controller: A `quizControllers` module will process incoming API requests, interact with the database, and send appropriate responses back to the front-end.
+* Quiz Model: A `quiz` model will define the structure of a `quiz` and the methods to interact with the PostgreSQL database.
 * PostgreSQL Connection: The back-end will establish a connection to the PostgreSQL database using Knex to perform CRUD (Create, Read, Update, Delete) operations on tasks.
 
 ### Interaction Flow:
-* When a user opens the app, the front-end will load and send an API request to fetch all tasks from the back-end. 
-    * The back-end will retrieve the tasks from the database and return them as a response to the front-end.
-    * The front-end will display the tasks on the UI.
-* When a user adds a new task, the front-end will send a request to the back-end’s API endpoint to create a new task in the database.
-    * The back-end will receive the request, ensuring that the required data is provided (user id, task title, task description). The back-end will generate the task id and timestamp and set the completion to `false`. It will then create the new task and store it in the database. The new task will be sent to the front-end as a response.
-    * The front-end will update the UI based on the responses from the back-end.
-* When a user marks a task as completed or deletes a task, the front-end will send requests to the respective back-end API endpoints to update or remove the task from the database.
-    * The back-end will receive these requests, ensuring that the required data is provided (user id, task id). The back-end will perform the appropriate action and send back a success/fail message in response.
-    * The front-end will update the UI based on the responses from the back-end.
+* When a user login into the website and click on quiz topic then lesson the front-end will load and send an API request to fetch all quiz questions  from the back-end. 
+    * The back-end will retrieve their progress from the database and return them as a response to the front-end.
+    * The front-end will display the test.
+* When a user finish the quiz, the front-end will send a request to the back-end’s API endpoint to create a new quiz attempts in the database.
+    * The back-end will receive the request, ensuring that the required data is provided (user id, quiz id and user_progress). The back-end will generate the quiz id and timestamp and when the user score is greater than 85% it will set thr second lesson to  `true`. It will open the second the lesson and allowing the user to access the second lesson.
 
-Please note that this is a simplified architecture for a basic todo app. In real-world projects, you might consider adding authentication, validation, error handling, and other features to enhance security and usability. Additionally, for larger projects, you may use additional technologies like Redux for state management or implement more complex database schemas and relationships.
+
